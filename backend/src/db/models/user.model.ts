@@ -17,7 +17,7 @@ import { DocumentUser } from "./document-user.model";
     include: [
       {
         model: UserRole,
-        attributes: ["createdAt", "updateAt"],
+        attributes: ["createdAt", "updatedAt"],
         include: [Role],
       },
     ],

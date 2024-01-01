@@ -22,6 +22,6 @@ const env = {
   DB_HOST: process.env.DB_HOST,
   DB_PORT: process.env.DB_PORT,
   DATABASE: process.env.DATABASE,
-}
+};
 
 export default env;

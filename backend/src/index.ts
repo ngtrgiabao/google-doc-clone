@@ -1,12 +1,13 @@
 import express, { Express, Request, Response } from "express";
 import dotnet from "dotenv";
-import { env } from "process";
 import db from "./db/models";
+import router from "./routes";
 
 dotnet.config();
 
 const app: Express = express();
 app.use(express.json());
+app.use(router);
 const port = 8080;
 
 db.sequelize.sync();

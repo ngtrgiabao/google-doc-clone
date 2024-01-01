@@ -14,7 +14,7 @@ sequelize.addModels([
   UserRole,
   Document,
   DocumentUser,
-])
+]);
 
 const db = {
   Sequelize,
@@ -24,7 +24,7 @@ const db = {
   Role,
   UserRole,
   Document,
-  DocumentUser
-}
+  DocumentUser,
+};
 
 export default db;
