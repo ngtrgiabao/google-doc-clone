@@ -10,4 +10,10 @@ const emailNotVerified: Array<ResponseMessage> = [
   },
 ];
 
-export { userNotFound, emailNotVerified };
+const resetPassword: Array<ResponseMessage> = [
+  {
+    message: "If a user with that email exists, you will receive an email with instruction to reset your password",
+  }
+]
+
+export { userNotFound, emailNotVerified, resetPassword };

@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import catchAsync from "../../middleware/catch-async";
 import { validationResult } from "express-validator";
 import { userService } from "../../services/user.service";
+import { resetPassword } from "../../responses";
 
 class UserController {
   public register = catchAsync(async (req: Request, res: Response) => {
@@ -27,6 +28,23 @@ class UserController {
 
     return res.status(200).json(user);
   });
+
+  public resetPassword = catchAsync(async (req: Request, res: Response) => {
+    const err = validationResult(req);
+    if (!err.isEmpty) {
+      return res.status(400).json(err);
+    }
+
+    const {email} = req.body;
+    const user = await userService.findUserByEmail(email);
+    if(!user) {
+      return res.status(200).json(resetPassword);
+    }
+
+    await userService.resetPassword(user);
+
+    return res.status(200).json(resetPassword);
+  })
 }
 
 const userController = new UserController();
