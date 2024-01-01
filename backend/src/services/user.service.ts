@@ -85,15 +85,33 @@ class UserService {
     return user;
   };
 
-  public resetPassword = async(user: User) =>{
-    const passwordResetToken = jwt.sign({ id: user.id, email: user.email }, "password_reset", {
-      expiresIn: "24h",
-    });
+  public resetPassword = async (user: User) => {
+    const passwordResetToken = jwt.sign(
+      { id: user.id, email: user.email },
+      "password_reset",
+      {
+        expiresIn: "24h",
+      },
+    );
 
     await user.update({ passwordResetToken: passwordResetToken });
+  };
 
-    
-  }
+  public findUserByPasswordResetToken = async (
+    email: string,
+    token: string,
+  ): Promise<User | null> => {
+    const user = await User.findOne({
+      where: { email: email, passwordResetToken: token },
+    });
+    return user;
+  };
+
+  public updatePassword = async (user: User, password: string) => {
+    const salt = await genSalt();
+    const hashedPassword = await hash(password, salt);
+    await user.update({ password: hashedPassword });
+  };
 }
 
 const userService = new UserService();

@@ -27,8 +27,26 @@ class UserValidator {
   ];
 
   public resetPassword = [
-    body("email").isEmail().normalizeEmail().withMessage("Must provide a valid email address"),    
-  ]
+    body("email")
+      .isEmail()
+      .normalizeEmail()
+      .withMessage("Must provide a valid email address"),
+  ];
+
+  public confirmResetPassword = [
+    body("password1")
+      .isLength({ min: 8, max: 25 })
+      .withMessage("Password must be between 8 and 25 characters."),
+    body("password1")
+      .matches(/\d/)
+      .withMessage("Password must contain at least one number."),
+    body("password2").custom((value, { req }) => {
+      if (value !== req.body.password1) {
+        throw new Error("Passwords must match");
+      }
+      return true;
+    }),
+  ];
 }
 
 const userValidator = new UserValidator();

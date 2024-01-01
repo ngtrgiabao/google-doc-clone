@@ -7,6 +7,15 @@ const router = Router();
 
 router.post("/", userValidator.register, userController.register);
 router.get("/:id", authenticate, userController.getUser);
-router.post("/reset-password", userValidator.resetPassword, userController.resetPassword);
+router.post(
+  "/reset-password",
+  userValidator.resetPassword,
+  userController.resetPassword,
+);
+router.put(
+  "/password/:token",
+  userValidator.confirmResetPassword,
+  userController.confirmResetPassword,
+);
 
 export default router;
