@@ -24,9 +24,9 @@ class AuthController {
       return res.status(401).json({ error: userNotFound });
     }
 
-    // if(!user.isVerified) {
-    //   return res.status(403).json({error: emailNotVerified});
-    // }
+    if(!user.isVerified) {
+      return res.status(403).json({error: emailNotVerified});
+    }
 
     const authResponse = await userService.generateAuthResponse(user);
     console.log(authResponse);

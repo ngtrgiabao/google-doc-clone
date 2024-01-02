@@ -38,7 +38,7 @@ class User extends Model {
   vertificationToken!: string;
 
   @Column(DataType.STRING)
-  passwordReset!: string;
+  passwordResetToken!: string;
 
   @HasMany(() => RefreshToken, {
     onDelete: "CASCADE",

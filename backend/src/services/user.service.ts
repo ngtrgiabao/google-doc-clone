@@ -2,11 +2,23 @@ import { compare, genSalt, hash } from "bcrypt";
 import jwt from "jsonwebtoken";
 import { User } from "../db/models/user.model";
 import { RefreshToken } from "../db/models/refresh-token.model";
+import { mailService } from "./mail.service";
 
 class UserService {
   public findUserByEmail = async (email: string): Promise<User | null> => {
     const user = await User.findOne({ where: { email: email } });
     return user;
+  };
+
+  private sendVertificationEmail = async (user: User) => {
+    const mail = {
+      from: "samplemail@gmail.com",
+      to: user.email,
+      subject: "Welcome to Google Docs Clone",
+      text: `Click the following link to verify your email: http://localhost:3000/user/verify-email/${user.vertificationToken}`,
+    }
+
+    await mailService.sendMail(mail);
   };
 
   public createUser = async (email: string, password: string) => {
@@ -18,7 +30,20 @@ class UserService {
       password: hashedPassword,
       vertificationToken: vertificationToken,
     });
+
+    await this.sendVertificationEmail(user);
   };
+
+  public sendPasswordResetEmail = async (user: User) => {
+    const mail = {
+      from: "samplemail@gmail.com",
+      to: user.email,
+      subject: "Reset your password",
+      text: `Click the following link to reset your password: http://localhost:3000/user/reset-password/${user.passwordResetToken}`,
+    }
+
+    await mailService.sendMail(mail);
+  }
 
   public checkPassword = async (
     user: User,
@@ -95,6 +120,7 @@ class UserService {
     );
 
     await user.update({ passwordResetToken: passwordResetToken });
+    await this.sendPasswordResetEmail(user);
   };
 
   public findUserByPasswordResetToken = async (
@@ -111,6 +137,20 @@ class UserService {
     const salt = await genSalt();
     const hashedPassword = await hash(password, salt);
     await user.update({ password: hashedPassword });
+  };
+
+  public findUserByVertificationToken = async (
+    email: string,
+    vertificationToken: string,
+  ): Promise<User | null> => {
+    const user = await User.findOne({
+      where: { email: email, vertificationToken: vertificationToken },
+    });
+    return user;
+  };
+
+  public updateVerified = async (user: User, isVerified: boolean) => {
+    await user.update({ isVerified: isVerified });
   };
 }
 
