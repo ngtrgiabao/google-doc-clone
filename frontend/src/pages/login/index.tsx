@@ -1,4 +1,5 @@
 import { useState } from "react";
+import validator from "validator";
 import { TextField } from "../../components/atoms/text-field";
 import useWindowSize from "../../hooks/useWindowSize";
 
@@ -8,6 +9,34 @@ const Login = () => {
   const [emailErrors, setEmailErrors] = useState<Array<string>>([]);
   const [password, setPassword] = useState<string>("");
   const [passwordErrors, setPasswordErrors] = useState<Array<string>>([]);
+
+  const validate = () => {
+    setEmailErrors([]);
+    setPasswordErrors([]);
+    let isValid = true;
+
+    if(!validator.isEmail(email)) {
+      setEmailErrors(["Must enter a valid email"]);
+      isValid = false;
+    }
+
+    if(!password.length) {
+      setPasswordErrors(["Must enter a password"]);
+      isValid = false;
+    }
+
+    return isValid;
+  }
+
+  const handleOnInputEmail = (value: string) => {
+    setEmailErrors([]);
+    setEmail(value);
+  }
+
+  const handleOnInputPassword = (value: string) => {
+    setPasswordErrors([]);
+    setPassword(value);
+  }
   
   return (
     <div

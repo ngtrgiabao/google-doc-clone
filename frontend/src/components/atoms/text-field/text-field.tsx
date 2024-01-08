@@ -3,12 +3,12 @@ import { useEffect, useRef, useState } from "react";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { ExclamationCircleIcon } from "@heroicons/react/16/solid";
 import InputMask from "inputmask";
-import InputProps from "../../../types/interfaces/input";
+import IInputProps from "../../../types/interfaces/IInput";
 import { Errors } from "../errors";
 
 type OnInputFunction = (e: string) => void;
 
-interface TextFieldProps extends InputProps {
+interface TextFieldProps extends IInputProps {
   value?: string | number;
   onInput?: OnInputFunction;
   type?: "text" | "password" | "textarea";
@@ -87,7 +87,7 @@ const TextField = ({
             )}
           </div>
         ) : (
-          <input
+          <textarea
             ref={textFieldRef}
             onInput={(e) => onInput((e.target as HTMLTextAreaElement).value)}
             onFocus={() => setIsFocused(true)}

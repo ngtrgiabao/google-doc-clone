@@ -14,14 +14,18 @@
     "@heroicons/react": "^2.1.1",
     "@types/jest": "^29.5.11",
     "@types/node": "^20.10.6",
+    "axios": "^1.6.5",
     "inputmask": "^5.0.8",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.21.1",
+    "validator": "^13.11.0"
   },
   "devDependencies": {
     "@types/inputmask": "^5.0.7",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
+    "@types/validator": "^13.11.7",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
