@@ -4,7 +4,7 @@ import PermEnum from "../types/enums/perm.enum";
 class ShareValidator {
   public create = [
     body("email")
-      .optional()
+      .isEmail()
       .normalizeEmail()
       .withMessage("Must provide a valid email to share this document with."),
     body("permission").custom((value) => {

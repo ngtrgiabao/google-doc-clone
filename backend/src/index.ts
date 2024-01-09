@@ -12,8 +12,8 @@ app.use(express.json());
 app.use(
   cors({
     origin: "*",
-  })
-)
+  }),
+);
 app.use(router);
 app.use(errorHandler);
 const port = 8080;

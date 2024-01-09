@@ -33,25 +33,29 @@ const authenticate = (req: Request, res: Response, next: NextFunction) => {
 
 const authorize = (permittedRoles: Array<RoleEnum>) => {
   return async (req: Request, res: Response, next: NextFunction) => {
-    if(!req.user) return res.sendStatus(401);
+    if (!req.user) return res.sendStatus(401);
     const userId = req.user.id;
 
     UserRole.findAll({
-      where: {userId},
-      include: Role
-    }).then(data => {
-      const roles = data.map(userRole => userRole.role.name)
-
-      if(permittedRoles.some(permittedRole => roles.includes(permittedRole))) {
-        next();
-      } else {
-        return res.sendStatus(403);
-      }
-    }).catch(err=>{
-      console.log(err);
-      return res.sendStatus(403);
+      where: { userId },
+      include: Role,
     })
-  }
-}
+      .then((data) => {
+        const roles = data.map((userRole) => userRole.role.name);
+
+        if (
+          permittedRoles.some((permittedRole) => roles.includes(permittedRole))
+        ) {
+          next();
+        } else {
+          return res.sendStatus(403);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        return res.sendStatus(403);
+      });
+  };
+};
 
 export { authenticate, authorize };

@@ -1,13 +1,13 @@
-import {createTransport} from "nodemailer"
+import { createTransport } from "nodemailer";
 
 const transporter = createTransport({
   port: 465,
-  host: 'smtp.gmail.com',
+  host: "smtp.gmail.com",
   auth: {
     user: "samplemail@gmail.com",
     pass: "123456",
   },
-  secure: true
+  secure: true,
 });
 
 export default transporter;

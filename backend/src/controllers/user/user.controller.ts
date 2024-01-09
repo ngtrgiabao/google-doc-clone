@@ -62,14 +62,14 @@ class UserController {
           const { email } = decoded as { email: string };
 
           userService
-            .findUserByVertificationToken(email, verifycationToken)
+            .findUserByVerificationToken(email, verifycationToken)
             .then((user) => {
               if (!user || user.isVerified) {
                 return res.sendStatus(400);
               }
 
               userService
-                .updateVerified(user, true)
+                .updateIsVerified(user, true)
                 .then(() => {
                   return res.sendStatus(200);
                 })

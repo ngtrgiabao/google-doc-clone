@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import validator from "validator";
 import { TextField } from "../../components/atoms/text-field";
 import useWindowSize from "../../hooks/useWindowSize";
+import AuthService from "../../services/auth.service";
+import useAuth from "../../hooks/useAuth";
+import { ToastContext } from "../../context/toast-context";
 
 const Login = () => {
   const { widthStr, heightStr } = useWindowSize();
@@ -9,35 +12,55 @@ const Login = () => {
   const [emailErrors, setEmailErrors] = useState<Array<string>>([]);
   const [password, setPassword] = useState<string>("");
   const [passwordErrors, setPasswordErrors] = useState<Array<string>>([]);
+  const [loading, setLoading] = useState(false);
+  const { login } = useAuth();
+  const { success, error } = useContext(ToastContext);
 
   const validate = () => {
     setEmailErrors([]);
     setPasswordErrors([]);
     let isValid = true;
 
-    if(!validator.isEmail(email)) {
+    if (!validator.isEmail(email)) {
       setEmailErrors(["Must enter a valid email"]);
       isValid = false;
     }
 
-    if(!password.length) {
+    if (!password.length) {
       setPasswordErrors(["Must enter a password"]);
       isValid = false;
     }
 
     return isValid;
-  }
+  };
+
+  const loginUser = async () => {
+    if (!validate()) return;
+
+    setLoading(true);
+
+    try {
+      const response = await AuthService.login({ email, password });
+      const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
+        response.data;
+
+      login(newAccessToken, newRefreshToken);
+      success("Successfully logged in");
+    } catch (error) {
+    } finally {
+    }
+  };
 
   const handleOnInputEmail = (value: string) => {
     setEmailErrors([]);
     setEmail(value);
-  }
+  };
 
   const handleOnInputPassword = (value: string) => {
     setPasswordErrors([]);
     setPassword(value);
-  }
-  
+  };
+
   return (
     <div
       className="w-full flex flex-col sm:justify-center items-center pt-52 sm:pb-96 bg-gray-100 dark:bg-slate-900 text-primary"
@@ -59,7 +82,7 @@ const Login = () => {
             label="Email"
             color="secondary"
             errors={[]}
-          />          
+          />
           <TextField
             value="Password"
             onInput={() => {}}
@@ -67,8 +90,11 @@ const Login = () => {
             color="secondary"
             type="password"
             errors={[]}
-          />          
-          <button tabIndex={-1} className="text-xs hover:underline font-semibold text-blue-500 text-left">
+          />
+          <button
+            tabIndex={-1}
+            className="text-xs hover:underline font-semibold text-blue-500 text-left"
+          >
             Forgot Password ?
           </button>
           <div className="text-xs flex">
@@ -77,7 +103,11 @@ const Login = () => {
               Register now
             </p>
           </div>
-          <button onClick={() => {}} disabled={false} className="bg-blue-600 text-white text-sm font-semibold px-3 py-2 rounded hover:bg-blue-500 flex justify-center items-center space-x-1 active:ring-1">
+          <button
+            onClick={() => {}}
+            disabled={false}
+            className="bg-blue-600 text-white text-sm font-semibold px-3 py-2 rounded hover:bg-blue-500 flex justify-center items-center space-x-1 active:ring-1"
+          >
             <span className="">Login</span>
           </button>
         </div>

@@ -8,7 +8,7 @@ interface IDocumentUser {
   updatedAt: Date;
   user: {
     email: string;
-  }
+  };
 }
 
-export default IDocumentUser
+export default IDocumentUser;

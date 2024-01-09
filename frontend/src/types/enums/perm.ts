@@ -3,4 +3,4 @@ enum Perm {
   EDIT = "EDIT",
 }
 
-export default Perm
+export default Perm;

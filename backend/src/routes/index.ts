@@ -7,9 +7,14 @@ import RoleEnum from "../types/enums/role.enum";
 
 const router = Router();
 
-router.get("/", authenticate, authorize([RoleEnum.SUPER_ADMIN]), async (req: Request, res: Response) => {
-  return res.sendStatus(200);
-});
+router.get(
+  "/",
+  authenticate,
+  authorize([RoleEnum.SUPER_ADMIN]),
+  async (req: Request, res: Response) => {
+    return res.sendStatus(200);
+  },
+);
 
 router.use("/user", user);
 router.use("/auth", auth);
