@@ -28,31 +28,26 @@ class AuthController {
     }
 
     const authResponse = await userService.generateAuthResponse(user);
-    console.log(authResponse);
 
     return res.status(200).json(authResponse);
   });
 
   public refreshToken = catchAsync(async (req: Request, res: Response) => {
     const err = validationResult(req);
-    if (err.isEmpty()) {
+    if (!err.isEmpty()) {
       return res.status(400).json(err);
     }
 
     const refreshToken = req.body.token;
-    const isTokenActive = await userService.getIsTokenActive(refreshToken);
 
-    if (!isTokenActive) {
-      return res.sendStatus(403);
-    }
+    const isTokenActive = await userService.getIsTokenActive(refreshToken);
+    if (!isTokenActive) return res.sendStatus(403);
 
     jwt.verify(
       refreshToken,
       "refresh_token",
-      async (err: VerifyErrors | null, decoded: unknown) => {
-        if (err) {
-          return res.sendStatus(403);
-        }
+      async (error: VerifyErrors | null, decoded: unknown) => {
+        if (error) return res.sendStatus(403);
         try {
           const { id, email, roles } = decoded as RequestUser;
           const user = { id, email, roles };
@@ -63,9 +58,10 @@ class AuthController {
           console.log(error);
           res.sendStatus(403);
         }
-      },
+      }
     );
   });
+
 
   public logout = catchAsync(async (req: Request, res: Response) => {
     if (!req.user) {

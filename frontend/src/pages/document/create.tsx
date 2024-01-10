@@ -1,11 +1,27 @@
+import { DocumentCreateHeader } from "../../components/organisms/document-create-header";
 import useAuth from "../../hooks/useAuth";
-import useWindowSize from "../../hooks/useWindowSize"
+import useDocuments from "../../hooks/useDocuments";
+import useWindowSize from "../../hooks/useWindowSize";
 
 const Create = () => {
-  const {heightStr} = useWindowSize();
-  const {userId} = useAuth();
+  const { heightStr } = useWindowSize();
+  const { userId } = useAuth();
+  const { documents, loading, setDocuments } = useDocuments();
 
-  
-}
+  const recentDocuments =
+    documents === null
+      ? []
+      : documents.filter((document) => document.userId === userId);
+  const sharedDocuments =
+    documents === null
+      ? []
+      : documents.filter((document) => document.userId !== userId);
 
-export default Create
+  return (
+    <div style={{ height: heightStr }}>
+      <DocumentCreateHeader />
+    </div>
+  );
+};
+
+export default Create;

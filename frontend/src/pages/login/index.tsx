@@ -48,7 +48,7 @@ const Login = () => {
 
       login(newAccessToken, newRefreshToken);
       success("Successfully logged in");
-      navigate("/");
+      navigate("/document/create");
     } catch (err) {
       error("Incorrect username or password. Please check again");
     } finally {
@@ -57,8 +57,8 @@ const Login = () => {
   };
 
   const handleOnKeyPress = (event: KeyboardEvent<HTMLDivElement>) => {
-    if(event.key === "Enter") loginUser();
-  }
+    if (event.key === "Enter") loginUser();
+  };
 
   const handleOnInputEmail = (value: string) => {
     setEmailErrors([]);
@@ -109,7 +109,10 @@ const Login = () => {
           </button>
           <div className="text-xs flex">
             Need an account ?
-            <Link to="/register" className="ml-1 hover:underline font-semibold text-blue-500 text-left cursor-pointer">
+            <Link
+              to="/register"
+              className="ml-1 hover:underline font-semibold text-blue-500 text-left cursor-pointer"
+            >
               Register now
             </Link>
           </div>

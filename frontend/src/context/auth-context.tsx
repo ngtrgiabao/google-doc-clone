@@ -57,7 +57,22 @@ export const AuthProvider = ({ children }: IAuthProviderProps) => {
   const [email, setEmail] = useState<string | null>(defaultValues.email);
 
   return (
-    <AuthContext.Provider value={defaultValues}>
+    <AuthContext.Provider value={{
+      accessToken,
+      setAccessToken,
+      isAuthenticated,
+      setIsAuthenticated,
+      loading,
+      setLoading,
+      loadingAuth,
+      setLoadingAuth,
+      errors,
+      setErrors,
+      userId,
+      setUserId,
+      email,
+      setEmail,
+    }}>
       {children}
     </AuthContext.Provider>
   );

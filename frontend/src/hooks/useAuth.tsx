@@ -69,7 +69,6 @@ const useAuth = () => {
       setLoadingAuth(false);
       return;
     }
-
     try {
       const response = await AuthService.refreshToken({ token: refreshToken });
       const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
@@ -79,18 +78,6 @@ const useAuth = () => {
       destroyAuth();
     } finally {
       setLoadingAuth(false);
-    }
-
-    setLoadingAuth(true);
-
-    try {
-      const response = await AuthService.refreshToken({ token: refreshToken });
-      const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
-        response.data;
-      login(newAccessToken, newRefreshToken);
-      silentRefresh(jwtDecode<IToken>(newAccessToken).exp);
-    } catch (error) {
-      console.log(error);
     }
   };
 
@@ -108,6 +95,7 @@ const useAuth = () => {
     errors,
     silentRefresh,
     destroyAuth,
+    refreshAccessToken,
   };
 };
 
