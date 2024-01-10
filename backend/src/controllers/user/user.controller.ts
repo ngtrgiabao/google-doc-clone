@@ -48,10 +48,10 @@ class UserController {
   });
 
   public verifyEmail = catchAsync(async (req: Request, res: Response) => {
-    const verifycationToken = req.params.token;
+    const vertificationToken = req.params.token;
 
     jwt.verify(
-      verifycationToken,
+      vertificationToken,
       "verify_email",
       async (err: VerifyErrors | null, decoded: unknown) => {
         if (err) {
@@ -62,7 +62,7 @@ class UserController {
           const { email } = decoded as { email: string };
 
           userService
-            .findUserByVerificationToken(email, verifycationToken)
+            .findUserByVertificationToken(email, vertificationToken)
             .then((user) => {
               if (!user || user.isVerified) {
                 return res.sendStatus(400);

@@ -1,10 +1,11 @@
-import { useContext, useState } from "react";
+import { KeyboardEvent, useContext, useState } from "react";
 import validator from "validator";
 import { TextField } from "../../components/atoms/text-field";
 import useWindowSize from "../../hooks/useWindowSize";
 import AuthService from "../../services/auth.service";
 import useAuth from "../../hooks/useAuth";
 import { ToastContext } from "../../context/toast-context";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const { widthStr, heightStr } = useWindowSize();
@@ -15,6 +16,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const { success, error } = useContext(ToastContext);
+  const navigate = useNavigate();
 
   const validate = () => {
     setEmailErrors([]);
@@ -46,10 +48,17 @@ const Login = () => {
 
       login(newAccessToken, newRefreshToken);
       success("Successfully logged in");
-    } catch (error) {
+      navigate("/");
+    } catch (err) {
+      error("Incorrect username or password. Please check again");
     } finally {
+      setLoading(false);
     }
   };
+
+  const handleOnKeyPress = (event: KeyboardEvent<HTMLDivElement>) => {
+    if(event.key === "Enter") loginUser();
+  }
 
   const handleOnInputEmail = (value: string) => {
     setEmailErrors([]);
@@ -63,6 +72,7 @@ const Login = () => {
 
   return (
     <div
+      onKeyDown={handleOnKeyPress}
       className="w-full flex flex-col sm:justify-center items-center pt-52 sm:pb-96 bg-gray-100 dark:bg-slate-900 text-primary"
       style={{
         width: widthStr,
@@ -77,19 +87,19 @@ const Login = () => {
             <p className="font-medium">to continue to Docs</p>
           </div>
           <TextField
-            value="Email"
-            onInput={() => {}}
+            value={email}
+            onInput={handleOnInputEmail}
             label="Email"
             color="secondary"
-            errors={[]}
+            errors={emailErrors}
           />
           <TextField
-            value="Password"
-            onInput={() => {}}
+            value={password}
+            onInput={handleOnInputPassword}
             label="Password"
             color="secondary"
             type="password"
-            errors={[]}
+            errors={passwordErrors}
           />
           <button
             tabIndex={-1}
@@ -99,13 +109,13 @@ const Login = () => {
           </button>
           <div className="text-xs flex">
             Need an account ?
-            <p className="ml-1 hover:underline font-semibold text-blue-500 text-left cursor-pointer">
+            <Link to="/register" className="ml-1 hover:underline font-semibold text-blue-500 text-left cursor-pointer">
               Register now
-            </p>
+            </Link>
           </div>
           <button
-            onClick={() => {}}
-            disabled={false}
+            onClick={loginUser}
+            disabled={loading}
             className="bg-blue-600 text-white text-sm font-semibold px-3 py-2 rounded hover:bg-blue-500 flex justify-center items-center space-x-1 active:ring-1"
           >
             <span className="">Login</span>

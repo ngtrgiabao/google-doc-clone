@@ -7,25 +7,26 @@ import { mailService } from "./mail.service";
 class UserService {
   public findUserByEmail = async (email: string): Promise<User | null> => {
     const user = await User.findOne({ where: { email } });
-
     return user;
   };
 
   public createUser = async (email: string, password: string) => {
     const salt = await genSalt();
     const hashedPassword = await hash(password, salt);
-    const verificationToken = jwt.sign({ email }, "verify_email");
+    const vertificationToken = jwt.sign({ email }, "verify_email");
     const user = await User.create({
       email: email,
       password: hashedPassword,
-      verificationToken: verificationToken,
+      vertificationToken: vertificationToken,
     });
 
+    console.log(`http://localhost:5173/user/verify-email/${user.vertificationToken}`);
+
     //call method to send verification email
-    // await this.sendVerificationEmail(user);
+    // await this.sendVertificationEmail(user);
   };
 
-  private sendVerificationEmail = async (user: User) => {
+  private sendVertificationEmail = async (user: User) => {
     const mail = {
       from: "yanji.notification@gmail.com",
       to: user.email,
@@ -150,14 +151,14 @@ class UserService {
     });
   };
 
-  public findUserByVerificationToken = async (
+  public findUserByVertificationToken = async (
     email: string,
-    verificationToken: string,
+    vertificationToken: string,
   ): Promise<User | null> => {
     const user = await User.findOne({
       where: {
         email,
-        verificationToken,
+        vertificationToken,
       },
     });
 
