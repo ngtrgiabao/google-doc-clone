@@ -1,3 +1,4 @@
+import { CreateDocumentBtn } from "../../components/atoms/create-document-button";
 import { DocumentCreateHeader } from "../../components/organisms/document-create-header";
 import useAuth from "../../hooks/useAuth";
 import useDocuments from "../../hooks/useDocuments";
@@ -20,6 +21,7 @@ const Create = () => {
   return (
     <div style={{ height: heightStr }}>
       <DocumentCreateHeader />
+      <CreateDocumentBtn />
     </div>
   );
 };

@@ -1,11 +1,11 @@
 import IDocumentUser from "./IDocumentUser";
 
 interface IDocument {
-  id: string;
+  id: number;
   title: string;
   content: string | null;
-  created_at: string;
-  updated_at: string;
+  createdAt: string;
+  updatedAt: string;
   userId: number;
   users: Array<IDocumentUser>;
   isPublic: boolean;

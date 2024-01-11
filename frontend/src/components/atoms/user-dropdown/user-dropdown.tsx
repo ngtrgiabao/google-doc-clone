@@ -23,7 +23,7 @@ const UserDropdown = () => {
     <div className="relative" onBlur={() => setShowDropdown(false)}>
       <button
         onClick={() => setShowDropdown(!showDropdown)}
-        className={`${backgroundColor} w-8 h-8 text-white font-semibold flex justify-center items-center rounded-full ring-2 flex-shrink-0 uppercase}`}
+        className={`${backgroundColor} w-8 h-8 text-white font-semibold flex justify-center items-center rounded-full ring-2 flex-shrink-0 uppercase`}
       >
         {email !== null && email[0]}
       </button>
