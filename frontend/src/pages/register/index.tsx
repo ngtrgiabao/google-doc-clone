@@ -7,6 +7,7 @@ import AuthService from "../../services/auth.service";
 import { ToastContext } from "../../context/toast-context";
 import axios, { AxiosError } from "axios";
 import { TextField } from "../../components/atoms/text-field";
+import Logo from "../../components/atoms/logo/logo";
 
 const Register = () => {
   const { widthStr, heightStr } = useWindowSize();
@@ -128,7 +129,7 @@ const Register = () => {
       <div className="w-full max-w-sm bg-white dark:bg-slate-800 rounded border-primary shadow-md border dark:border-0 darh:shadow-xl p-6">
         <div className="flex flex-col space-y-4">
           <div className="w-full text-center flex flex-col justify-center items-center">
-            {/* <h1>Login</h1> */}
+            <Logo />
             <h1 className="font-medium text-2xl">Sign up</h1>
             <p className="font-medium">for a Docs account</p>
           </div>

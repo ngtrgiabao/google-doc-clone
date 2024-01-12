@@ -31,7 +31,7 @@ const useDocuments = () => {
   return {
     documents,
     loading,
-    loadDocuments,
+    setDocuments,
     setLoading,
   };
 };

@@ -11,7 +11,7 @@ import { ToastContext } from "./toast-context";
 import useAuth from "../hooks/useAuth";
 import DocumentService from "../services/document.service";
 
-interface IDocumentContext {
+interface DocumentContextInterface {
   document: IDocument | null;
   setDocument: Dispatch<SetStateAction<IDocument | null>>;
   errors: Array<string>;
@@ -41,25 +41,24 @@ const defaultValues = {
   saveDocument: async () => {},
 };
 
-export const DocumentContext = createContext<IDocumentContext>(defaultValues);
+export const DocumentContext =
+  createContext<DocumentContextInterface>(defaultValues);
 
-interface IDocumentProviderProps {
+interface DocumentProviderInterface {
   children: JSX.Element;
 }
 
-export const DocumentProvider = ({ children }: IDocumentProviderProps) => {
+export const DocumentProvider = ({ children }: DocumentProviderInterface) => {
   const { error } = useContext(ToastContext);
   const { accessToken } = useAuth();
 
-  const [document, setDocument] = useState<IDocument | null>(
+  const [document, setDocument] = useState<null | IDocument>(
     defaultValues.document,
   );
   const [errors, setErrors] = useState<Array<string>>(defaultValues.errors);
-  const [loading, setLoading] = useState<boolean>(defaultValues.loading);
-  const [saving, setSaving] = useState<boolean>(defaultValues.saving);
-  const [currentUsers, setCurrentUsers] = useState<Set<string>>(
-    defaultValues.currentUsers,
-  );
+  const [loading, setLoading] = useState(defaultValues.loading);
+  const [saving, setSaving] = useState(defaultValues.saving);
+  const [currentUsers, setCurrentUsers] = useState(defaultValues.currentUsers);
 
   const setDocumentTitle = (title: string) => {
     setDocument({ ...document, title } as IDocument);
@@ -74,7 +73,7 @@ export const DocumentProvider = ({ children }: IDocumentProviderProps) => {
       await DocumentService.update(accessToken, updatedDocument);
       setDocument(updatedDocument);
     } catch (error) {
-      setErrors(["There was an error saving the document. PLease try again"]);
+      setErrors(["There was an error saving the document. Please try again."]);
     } finally {
       setSaving(false);
     }
@@ -92,14 +91,14 @@ export const DocumentProvider = ({ children }: IDocumentProviderProps) => {
     <DocumentContext.Provider
       value={{
         document,
-        setDocument,
         errors,
-        setErrors,
         loading,
-        setLoading,
         saving,
-        setSaving,
         currentUsers,
+        setDocument,
+        setErrors,
+        setLoading,
+        setSaving,
         setCurrentUsers,
         setDocumentTitle,
         saveDocument,

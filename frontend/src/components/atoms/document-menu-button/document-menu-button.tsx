@@ -11,39 +11,50 @@ interface DocumentMenuButtonProps {
   setDocuments: Function;
 }
 
-const DocumentMenuButton = ({ documentId, setDocuments }: DocumentMenuButtonProps) => {
-  const {accessToken} = useAuth();
+const DocumentMenuButton = ({
+  documentId,
+  setDocuments,
+}: DocumentMenuButtonProps) => {
+  const { accessToken } = useAuth();
   const [loading, setLoading] = useState<boolean>(false);
   const dropdownRef = useRef(null);
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
-  const {error} = useContext(ToastContext);
+  const { error } = useContext(ToastContext);
 
   const handleDeleteBtnClick = async () => {
-    if(accessToken === null) return;
+    if (accessToken === null) return;
 
     setLoading(true);
 
     try {
       await DocumentService.delete(accessToken, documentId);
-      setDocuments((allDocuments: Array<IDocument>) => allDocuments.filter(document => document.id !== documentId));
+      setDocuments((allDocuments: Array<IDocument>) =>
+        allDocuments.filter((document) => document.id !== documentId),
+      );
     } catch (err) {
       error("Unable to delete document. Please try again");
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   const handleMenuBtnBlur = (event: FocusEvent<HTMLButtonElement>) => {
     const classList = (event.target as HTMLButtonElement).classList;
 
-    if(!classList.contains("document-menu")) {
+    if (!classList.contains("document-menu")) {
       setShowDropdown(false);
     }
-  }
+  };
 
   return (
-    <div className={`relative flex justify-center document-menu-btn-${documentId}`}>
-      <button onClick={() => setShowDropdown(!showDropdown)} onBlur={handleMenuBtnBlur} className={`hover:bg-gray-100 relative left-2 w-8 h-8 rounded-full flex items-center justify-center document-menu-btn-${documentId}`}>
+    <div
+      className={`relative flex justify-center document-menu-btn-${documentId}`}
+    >
+      <button
+        onClick={() => setShowDropdown(!showDropdown)}
+        onBlur={handleMenuBtnBlur}
+        className={`hover:bg-gray-100 relative left-2 w-8 h-8 rounded-full flex items-center justify-center document-menu-btn-${documentId}`}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -67,15 +78,23 @@ const DocumentMenuButton = ({ documentId, setDocuments }: DocumentMenuButtonProp
         classNames="fade-in"
         unmountOnExit
         children={
-          <div ref={dropdownRef} className="absolute top-full mt-1 z-10 w-52 bg-white pw-2 rounded-sm shadow-lg border document-menu">
-            <div onClick={() => {!loading ? handleDeleteBtnClick() : () => {}}} className="w-full text-black hover:bg-gray-100 text-sm px-px-6 py-1 text-left document-menu">
+          <div
+            ref={dropdownRef}
+            className="absolute top-full mt-1 z-10 w-52 bg-white pw-2 rounded-sm shadow-lg border document-menu"
+          >
+            <div
+              onClick={() => {
+                !loading ? handleDeleteBtnClick() : () => {};
+              }}
+              className="w-full text-black hover:bg-gray-100 text-sm px-px-6 py-1 text-left document-menu"
+            >
               Delete
             </div>
           </div>
         }
       />
     </div>
-  )
-}
+  );
+};
 
-export default DocumentMenuButton
+export default DocumentMenuButton;

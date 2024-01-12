@@ -9,6 +9,7 @@ import { ToastProvider } from "./context/toast-context.tsx";
 import VerifyEmail from "./pages/user/verify-email.tsx";
 import AuthRoute from "./components/molecules/auth-route/auth-route.tsx";
 import Create from "./pages/document/create.tsx";
+import Document from "./pages/document/index.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -23,6 +24,18 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             <Route
               path="/document/create"
               element={<AuthRoute element={<Create />} />}
+            />
+            <Route
+              path="/document/:id"
+              element={
+                <AuthRoute
+                  element={
+                    <AuthProvider>
+                      <Document />
+                    </AuthProvider>
+                  }
+                />
+              }
             />
           </Routes>
         </ToastProvider>

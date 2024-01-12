@@ -1,6 +1,6 @@
-import { useContext, useState } from "react"
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ToastContext } from "../../../context/toast-context"
+import { ToastContext } from "../../../context/toast-context";
 import useAuth from "../../../hooks/useAuth";
 import DocumentService from "../../../services/document.service";
 import IDocument from "../../../types/interfaces/IDocument";
@@ -10,13 +10,13 @@ import { Spinner } from "../spinner";
 const CreateDocumentBtn = () => {
   const { error } = useContext(ToastContext);
   const { accessToken } = useAuth();
-  const { loading, setLoading } = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const handleDocumentCreateBtnClick = async () => {
     if (accessToken === null) return;
 
-    setLoading(true)
+    setLoading(true);
 
     try {
       const response = await DocumentService.create(accessToken);
@@ -28,7 +28,7 @@ const CreateDocumentBtn = () => {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="w-full h-80 bg-gray-100 flex justify-center items-center font-medium text-gray-700 px-4 overflow-hidden">
@@ -38,7 +38,7 @@ const CreateDocumentBtn = () => {
           <div className="space-y-2">
             <button
               disabled={loading}
-              onClick={() => handleDocumentCreateBtnClick}
+              onClick={() => handleDocumentCreateBtnClick()}
               className="h-52 w-40 bg-white border hover:border-blue-500 flex items-center justify-center"
             >
               <span className={`${loading && "opacity-0"}`}>
@@ -52,7 +52,7 @@ const CreateDocumentBtn = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default CreateDocumentBtn
+export default CreateDocumentBtn;

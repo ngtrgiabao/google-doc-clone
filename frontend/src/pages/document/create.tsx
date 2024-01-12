@@ -1,4 +1,6 @@
 import { CreateDocumentBtn } from "../../components/atoms/create-document-button";
+import { Spinner } from "../../components/atoms/spinner";
+import { DocumentList } from "../../components/molecules/documents-list";
 import { DocumentCreateHeader } from "../../components/organisms/document-create-header";
 import useAuth from "../../hooks/useAuth";
 import useDocuments from "../../hooks/useDocuments";
@@ -22,6 +24,22 @@ const Create = () => {
     <div style={{ height: heightStr }}>
       <DocumentCreateHeader />
       <CreateDocumentBtn />
+      {loading ? (
+        <Spinner size="lg" />
+      ) : (
+        <>
+          <DocumentList
+            title="Recent Documents"
+            documents={recentDocuments}
+            setDocuments={setDocuments}
+          />
+          <DocumentList
+            title="Shared Documents"
+            documents={sharedDocuments}
+            setDocuments={setDocuments}
+          />
+        </>
+      )}
     </div>
   );
 };

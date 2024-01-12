@@ -1,1 +1,1 @@
-export {default as DocumentMenuButton} from './document-menu-button'
+export { default as DocumentMenuButton } from "./document-menu-button";

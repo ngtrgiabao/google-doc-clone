@@ -1,16 +1,17 @@
-import IDocument from "../../../types/interfaces/IDocument"
-import { DocumentCard } from "../../atoms/document-card"
+import IDocument from "../../../types/interfaces/IDocument";
+import { DocumentCard } from "../../atoms/document-card";
 
 interface DocumentListProps {
-  title: string,
-  documents: Array<IDocument>
-  setDocuments: () => void
+  title: string;
+  documents: Array<IDocument>;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  setDocuments: Function;
 }
 
 const DocumentList = ({
   title,
   documents,
-  setDocuments
+  setDocuments,
 }: DocumentListProps) => {
   return (
     <div className="w-full flex justify-center items-center font-medium text-gray-700 p-4">
@@ -18,7 +19,11 @@ const DocumentList = ({
         <h1>{title}</h1>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
           {documents
-            .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
+            .sort(
+              (a, b) =>
+                new Date(b.updatedAt).getTime() -
+                new Date(a.updatedAt).getTime(),
+            )
             .map((document) => (
               <DocumentCard
                 key={document.id}
@@ -29,7 +34,7 @@ const DocumentList = ({
         </div>
       </p>
     </div>
-  )
-}
+  );
+};
 
-export default DocumentList
+export default DocumentList;

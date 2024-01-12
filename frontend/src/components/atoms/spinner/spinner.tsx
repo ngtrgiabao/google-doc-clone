@@ -1,6 +1,6 @@
 interface SpinnerProps {
   size: "sm" | "md" | "lg";
-  className: string;
+  className?: string;
 }
 
 const Spinner = ({ size, className }: SpinnerProps) => {
@@ -15,7 +15,7 @@ const Spinner = ({ size, className }: SpinnerProps) => {
       default:
         return "w-4 h-4";
     }
-  }
+  };
 
   const getSpinnerDivSize = () => {
     switch (size) {
@@ -26,7 +26,7 @@ const Spinner = ({ size, className }: SpinnerProps) => {
       case "lg":
         return "w-7 h-7 border-2 margin-2 border-white";
     }
-  }
+  };
 
   return (
     <div className={`${getSpinnerSize()} ${className} spinner`}>
@@ -34,7 +34,7 @@ const Spinner = ({ size, className }: SpinnerProps) => {
       <div className={getSpinnerDivSize()}></div>
       <div className={getSpinnerDivSize()}></div>
     </div>
-  )
-}
+  );
+};
 
-export default Spinner
+export default Spinner;

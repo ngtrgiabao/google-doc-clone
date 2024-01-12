@@ -1,1 +1,1 @@
-export {default as DocumentList} from './documents-list'
+export { default as DocumentList } from "./documents-list";
