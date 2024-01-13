@@ -86,7 +86,7 @@ const DocumentMenuButton = ({
               onClick={() => {
                 !loading ? handleDeleteBtnClick() : () => {};
               }}
-              className="w-full text-black hover:bg-gray-100 text-sm px-px-6 py-1 text-left document-menu"
+              className="w-full text-black hover:bg-gray-100 text-sm px-6 py-1 text-left document-menu"
             >
               Delete
             </div>

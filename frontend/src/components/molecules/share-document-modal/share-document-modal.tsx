@@ -146,7 +146,7 @@ const ShareDocumentModal = () => {
   return (
     <Modal
       button={
-        <button className="btn-primary">
+        <button className="btn-primary flex items-center mr-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-4 w-4"
@@ -159,7 +159,7 @@ const ShareDocumentModal = () => {
               clipRule="evenodd"
             />
           </svg>
-          <span>Share</span>
+          <span className="ml-1">Share</span>
         </button>
       }
       content={
