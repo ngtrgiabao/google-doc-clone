@@ -58,10 +58,9 @@ class AuthController {
           console.log(error);
           res.sendStatus(403);
         }
-      }
+      },
     );
   });
-
 
   public logout = catchAsync(async (req: Request, res: Response) => {
     if (!req.user) {

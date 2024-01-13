@@ -20,7 +20,9 @@ class UserService {
       vertificationToken: vertificationToken,
     });
 
-    console.log(`http://localhost:5173/user/verify-email/${user.vertificationToken}`);
+    console.log(
+      `http://localhost:5173/user/verify-email/${user.vertificationToken}`,
+    );
 
     //call method to send verification email
     // await this.sendVertificationEmail(user);

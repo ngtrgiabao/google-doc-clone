@@ -10,6 +10,7 @@ import VerifyEmail from "./pages/user/verify-email.tsx";
 import AuthRoute from "./components/molecules/auth-route/auth-route.tsx";
 import Create from "./pages/document/create.tsx";
 import Document from "./pages/document/index.tsx";
+import { DocumentProvider } from "./context/document-context.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -30,9 +31,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
               element={
                 <AuthRoute
                   element={
-                    <AuthProvider>
+                    <DocumentProvider>
                       <Document />
-                    </AuthProvider>
+                    </DocumentProvider>
                   }
                 />
               }

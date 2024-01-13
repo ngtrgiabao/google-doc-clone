@@ -12,7 +12,7 @@ class DocumentController {
     }
 
     const { id } = req.params;
-    const document = await documentService.findDocumentId(
+    const document = await documentService.findDocumentById(
       parseInt(id),
       parseInt(req.user.id),
     );
@@ -53,32 +53,25 @@ class DocumentController {
       return res.status(400).json(err);
     }
 
-    if (!req.user) {
-      return res.sendStatus(401);
-    }
+    if (!req.user) return res.sendStatus(401);
 
     const { id } = req.params;
     const { title, content, isPublic } = req.body;
-    const document = await documentService.findDocumentId(
+
+    const document = await documentService.findDocumentById(
       parseInt(id),
       parseInt(req.user.id),
     );
 
-    if (document === null) {
-      return res.sendStatus(404);
-    }
+    if (document === null) return res.sendStatus(404);
 
-    if (title !== undefined && title !== null) {
-      document.title = title;
-    }
-    if (content !== undefined && content !== null) {
-      document.content = content;
-    }
-    if (isPublic !== undefined && isPublic !== null) {
+    if (title !== undefined && title !== null) document.title = title;
+    if (content !== undefined && content !== null) document.content = content;
+    if (isPublic !== undefined && isPublic !== null)
       document.isPublic = isPublic;
-    }
 
     await document.save();
+
     return res.sendStatus(200);
   });
 

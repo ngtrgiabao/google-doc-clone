@@ -5,10 +5,13 @@ import IDocument from "../../../types/interfaces/IDocument";
 import DocumentService from "../../../services/document.service";
 import Logo from "../../atoms/logo/logo";
 import { UserDropDown } from "../../atoms/user-dropdown";
+import useRandomBackground from "../../../hooks/useRandomBackground";
+import ShareDocumentModal from "../share-document-modal/share-document-modal";
 
 const CurrentUsers = () => {
   const { email } = useAuth();
   const { currentUsers } = useContext(DocumentContext);
+  const { backgroundColor } = useRandomBackground();
 
   return (
     <>
@@ -18,7 +21,7 @@ const CurrentUsers = () => {
           return (
             <div
               key={currentUser}
-              className={`w-8 h-8 text-white font-semibold flex justify-center items-center rounded-full flex-shrink-0 uppercase ring-2`}
+              className={`${backgroundColor} w-8 h-8 text-white font-semibold flex justify-center items-center rounded-full flex-shrink-0 uppercase ring-2`}
             >
               {currentUser[0]}
             </div>
@@ -30,6 +33,7 @@ const CurrentUsers = () => {
 
 const DocumentMenuBar = () => {
   const { accessToken, userId } = useAuth();
+
   const {
     document,
     saving,
@@ -54,11 +58,13 @@ const DocumentMenuBar = () => {
       ...document,
       title,
     } as IDocument;
-
+    console.log(saving);
+    console.log(document.id);
+    console.log(updatedDocument);
     try {
       await DocumentService.update(accessToken, updatedDocument);
-    } catch (err) {
-      setErrors(["There was an error saving the document"]);
+    } catch (error) {
+      setErrors(["There was an error saving the document. Please try again."]);
     } finally {
       setDocument(updatedDocument);
       setSaving(false);
@@ -75,7 +81,7 @@ const DocumentMenuBar = () => {
             type="text"
             onBlur={(event) => handleTitleInputBlur(event)}
             onChange={(event) => handleTitleInputChange(event)}
-            value={document?.title ? document?.title : ""}
+            // value={document?.title ? document?.title : ""}
             className="font-medium text-lg px-2 pt-2"
             name=""
             id=""
@@ -95,6 +101,9 @@ const DocumentMenuBar = () => {
               Insert
             </button>
             <button className="text-sm whitespace-nowrap px-2 py-1 font-medium hover:bg-gray-100 rounded-md">
+              Format
+            </button>
+            <button className="text-sm whitespace-nowrap px-2 py-1 font-medium hover:bg-gray-100 rounded-md">
               Tools
             </button>
             <button className="text-sm whitespace-nowrap px-2 py-1 font-medium hover:bg-gray-100 rounded-md">
@@ -109,7 +118,7 @@ const DocumentMenuBar = () => {
       </div>
       <div className="flex items-center flex-shrink-0 pl-3 gap-x-4">
         {document !== null && document.userId === userId && (
-          <h1>Share Button</h1>
+          <ShareDocumentModal />
         )}
         <div className="flex items-center gap-x-2">
           <CurrentUsers />

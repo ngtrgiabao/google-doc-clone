@@ -3,7 +3,7 @@ import { Document } from "../db/models/document.model";
 import { DocumentUser } from "../db/models/document-user.model";
 
 class DocumentService {
-  public findDocumentId = async (id: number, userId: number) => {
+  public findDocumentById = async (id: number, userId: number) => {
     let document = await Document.findOne({
       where: {
         [Op.or]: [

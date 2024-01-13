@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import IDocument from "../../../types/interfaces/IDocument";
 import { MouseEvent } from "react";
-import { DocumentMenuButton } from "../document-menu-button";
+import DocumentMenuButton from "../document-menu-button/document-menu-button";
 
 interface DocumentCardProps {
   document: IDocument;
@@ -19,7 +19,6 @@ const DocumentCard = ({ document, setDocuments }: DocumentCardProps) => {
     documentId: number,
   ) => {
     const classList = (event.target as HTMLDivElement).classList;
-
     if (
       !classList.contains(`document-menu-btn-${documentId}`) &&
       !classList.contains("document-menu")
@@ -34,9 +33,7 @@ const DocumentCard = ({ document, setDocuments }: DocumentCardProps) => {
         return (
           <div
             key={i}
-            style={{
-              width: `${Math.floor(Math.random() * 100)}%`,
-            }}
+            style={{ width: `${Math.floor(Math.random() * 100)}%` }}
             className="h-1 bg-gray-200"
           ></div>
         );
